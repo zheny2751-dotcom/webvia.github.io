@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .header {
+            background: #ffffff;
+            color: #1a202c;
+            padding: 100px 20px 80px;
+            text-align: center;
+            border-bottom: none;
+        }
+
+        .header h1 {
+            font-size: 2.6em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #1a202c;
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+            color: #475569;
+        }
+
+        .authors {
+            margin: 25px 0;
+            font-size: 1.15em;
+            font-weight: 400;
+            color: #1a202c;
+        }
+
+        .authors span {
+            margin: 0 12px;
+            display: inline-block;
+        }
+
+        .corresponding {
+            position: relative;
+            top: -5px;
+            font-size: 0.75em;
+        }
+
+        .affiliation {
+            margin-top: 15px;
+            font-size: 1.05em;
+            font-weight: 300;
+            color: #64748b;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 22px;
+            background: linear-gradient(135deg, #3b3b3b, #1f1f1f);
+            border: 1px solid #000;
+            color: #ffffff;
+            border-radius: 40px;
+            font-size: 0.9em;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ffffff, #f1f1f1);
+            color: #1a1a1a;
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 30px 20px;
+            background: #ffffff;
+            border-bottom: none;   /* ✅ 去分割线 */
+        }
+
+
+        section h2 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #1a202c;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-intro {
+            text-align: center;
+            font-size: 1.15em;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .task-card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid #e5e7eb;
+            position: relative;
+        }
+
+        .task-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #1a202c;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: #1a202c;
+        }
+
+        .task-card .label {
+            font-size: 0.85em;
+            color: #1a202c;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task-card .description {
+            color: #475569;
+            line-height: 1.7;
+            font-size: 0.98em;
+        }
+
+        .abstract-content {
+            max-width: 950px;
+            margin: 0 auto;
+            font-size: 1.12em;
+            line-height: 1.9;
+            color: #475569;
+            text-align: justify;
+        }
+
+        .abstract-content p {
+            margin-bottom: 10px;
+        }
+
+        .abstract-content strong {
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .updates {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 25px 30px;
+            margin: 40px 0;
+            border-radius: 8px;
+        }
+
+        .updates h3 {
+            color: #92400e;
+            margin-bottom: 18px;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        .updates ul {
+            list-style: none;
+        }
+
+        .updates li {
+            padding: 10px 0;
+            color: #78350f;
+            font-size: 0.98em;
+        }
+
+        .updates li::before {
+            content: "▸ ";
+            color: #f59e0b;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .updates strong {
+            color: #92400e;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 35px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 25px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #1a202c;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            color: #1a202c;
+        }
+
+        .stat-label {
+            font-size: 1.08em;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .comparison-table {
+            overflow-x: auto;
+            margin-top: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #1a202c;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .highlight-row {
+            background: #f0f4ff;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .highlight-row:hover {
+            background: #e0e7ff;
+        }
+
+        .explorer-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-top: 50px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+        }
+
+        select, button {
+            padding: 12px 24px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.98em;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        select:focus, button:focus {
+            outline: none;
+            border-color: #1a202c;
+        }
+
+        select:hover {
+            border-color: #1a202c;
+        }
+
+        button {
+            background: #1a202c;
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .intro-block {
+            max-width: 900px;
+            margin: 10px auto 20px;  /* ✅ 比原来更贴合后面的内容 */
+            font-size: 1.05em;
+            color: #444;
+            line-height: 1.75;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .intro-block p {
+            margin-bottom: 10px;     /* ✅ 降低段落之间的空隙 */
+        }
+
+        .intro-block ul {
+            margin: 5px 0 10px;
+            padding-left: 20px;
+        }
+
+
+
+        .task-display {
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            min-height: 250px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .task-display h4 {
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .task-display p {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .task-display strong {
+            color: #1a202c;
+            font-weight: 600;
+        }
+
+        .task-display ul {
+            margin-left: 25px;
+            color: #475569;
+        }
+
+        .task-display ul li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .visualization {
+            margin-top: 50px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .visualization h3 {
+            color: #1a202c;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
+
+        .figure {
+            text-align: center;
+            margin: 10px auto 20px;
+        }
+        .figure img {
+            max-width: 65%;
+            border-radius: 5px;
+        }
+        .figure .caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* ✅ 放大 Agentic Framework 里的图片 */
+        .framework .figure img {
+            max-width: 85%;   /* 你可以改成 85%、100% 都可以 */
+            margin: 0 auto;
+            display: block;
+        }
+
+        .function {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .function h2 {
+            font-size: 2.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a202c;
+        }
+
+        .function-figure img {
+            width: 85%;          /* 让图更宽一些 */
+            max-width: 1200px;   /* 防止超出页面 */
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px; /* 如果想要圆角可以保留 */
+        }
+
+        /* ✅ 设置 Demo 内容整体居中但内部左对齐 */
+        .task-examples .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ✅ 每个 demo 块整体左对齐 */
+        .demo-section {
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        /* ✅ 标题风格统一 */
+        .demo-section h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* ✅ 文字段落样式 */
+        .demo-section p {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* ✅ 图片与标题文字左对齐 */
+        .demo-img {
+            display: block;
+            max-width: 100%;
+            width: 90%;          /* 可调，比如 80% / 900px */
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .chart {
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            min-height: 280px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .chart h4 {
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .bar {
+            background: #1a202c;
+            height: 36px;
+            margin: 12px 0;
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .bar:hover {
+            transform: scaleX(1.02);
+            transform-origin: left;
+            opacity: 0.8;
+        }
+
+        .bar-label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .citation {
+            background: #1a202c;
+            color: white;
+            padding: 80px 20px;
+            border-bottom: none;
+        }
+
+        .citation h2 {
+            color: white;
+        }
+
+        .citation-box {
+            max-width: 900px;
+            margin: 30px auto;
+            background: #0f172a;
+            padding: 30px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border: 1px solid #334155;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: #0f172a;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: none;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-authors {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-author {
+            text-align: center;
+        }
+
+        .footer-author h4 {
+            color: #94a3b8;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+
+        .footer-author p {
+            color: #64748b;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        /* Narrow experiment section for better readability */
+        #experiments .container {
+            max-width: 950px;   /* 也可以改成 900 或 1000 */
+            margin: 0 auto;
+        }
+        #experiments table {
+            font-size: 0.92em;   /* 表格轻微缩小，避免拥挤 */
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: #1a202c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 1000;
+            font-size: 1.5em;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .scroll-top.visible {
+            display: flex;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            
+            section h2 {
+                font-size: 2em;
+            }
+            
+            .stat-number {
+                font-size: 2.5em;
+            }
+
+            .task-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .intro-content {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .intro-text {
+            font-size: 1.15em;
+            line-height: 1.9;
+            color: #475569;
+            margin-bottom: 30px;
+        }
+
+        .generalization-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .gen-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .gen-card:hover {
+            border-color: #1a202c;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .gen-card h4 {
+            color: #1a202c;
+            margin-bottom: 10px;
+            font-size: 1.15em;
+        }
+
+        .gen-card p {
+            color: #64748b;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <h1>WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation</h1>
+            <div class="authors">
+                <span><strong>Mingde Xu<sup>1,3*</sup></strong></span>
+                <span><strong>Zhen Yang<sup>2,3*†</sup></strong></span>
+                <span><strong>Wenyi Hong<sup>2,3</sup></strong></span>
+                <span><strong>Lihang Pan<sup>3</sup></strong></span>
+                <span><strong>Xinyue Fan<sup>3</sup></strong></span>
+                <span><strong>Yan Wang<sup>3</sup></strong></span>
+                <span><strong>Xiaotao Gu<sup>3</sup></strong></span>
+                <span><strong>Bin Xu<sup>2</sup></strong></span>
+                <span><strong>Jie Tang<sup>2†</sup></strong></span>
+            </div>
+            <div class="affiliation">
+                <span><sup>1</sup> Faculty of Mathematics, University of Waterloo</span><br>
+                <span><sup>2</sup> The Knowledge Engineering Group (KEG), Tsinghua University</span><br>
+                <span><sup>3</sup> Zhipu AI</span>
+            </div>
+            <div class="footnotes">
+                <p><sup>*</sup> Equal contribution.</p>
+                <p><sup>†</sup> Corresponding authors: yang-zhen@mail.tsinghua.edu.cn, jietang@mail.tsinghua.edu.cn</p>
+            </div>
+            <!-- <div class="buttons">
+                <a href="#" class="btn">📄 arXiv</a>
+                <a href="#" class="btn">💻 Code</a>
+                <a href="#" class="btn">📊 Training Data</a>
+                <a href="#" class="btn">🔒 Test Data</a>
+                <a href="#" class="btn">🗂️ Raw Dump</a>
+            </div> -->
+            <div class="buttons">
+                <a href="#" class="btn">📄 arXiv</a>
+                <a href="#" class="btn">💻 Code</a>
+                <a href="#" class="btn">🧠 Model</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="intro-block">
+        <p><strong>WebVIA</strong> is the first agentic framework for interactive and verifiable UI-to-Code generation. 
+        While prior vision-language models only produce static HTML/CSS layouts, WebVIA enables executable and interactive web interfaces.</p>
+
+        <p>The framework consists of three modules:</p>
+        <ul>
+            <li><strong>WebVIA-Agent</strong> – navigates websites and captures multi-state UI screenshots.</li>
+            <li><strong>WebVIA-UI2Code</strong> – generates functional HTML/CSS/JavaScript code with interactivity.</li>
+            <li><strong>Validation Module</strong> – verifies whether the generated UI behaves as expected.</li>
+        </ul>
+
+        <p>WebVIA-Agent achieves more stable and accurate UI exploration than general-purpose agents (e.g., Gemini-2.5-Pro), and WebVIA-UI2Code significantly improves executable and interactive code generation across multiple benchmarks.</p>
+    </div>
+    
+    <div class="figure">
+        <img src="assets/webvia_simple.png" alt="WebVIA Framework">
+    </div>
+
+    <!-- Abstract -->
+    <section class="abstract">
+        <div class="container">
+            <h2>Abstract</h2>
+            <div class="abstract-content">
+                <p>
+                    User interface (UI) development requires translating design mockups into functional code, a process that remains repetitive and labor-intensive.
+                    While recent Vision–Language Models (VLMs) automate UI-to-Code generation, they generate only static HTML/CSS/JavaScript layouts lacking interactivity.
+                    To address this, we propose <strong>WebVIA</strong>, the first agentic framework for interactive UI-to-Code generation and validation.
+                    The framework comprises three components: 
+                    1) an exploration agent to capture multi-state UI screenshots; 
+                    2) a UI2Code model that generates executable interactive code; 
+                    3) a validation module that verifies the interactivity.
+                    Experiments demonstrate that <strong>WebVIA-Agent</strong> achieves more stable and accurate UI exploration than general-purpose agents (e.g., Gemini-2.5-Pro). 
+                    In addition, our fine-tuned <strong>WebVIA-UI2Code</strong> models exhibit substantial improvements in generating executable and interactive HTML/CSS/JavaScript code, outperforming their base counterparts across both interactive and static UI2Code benchmarks.
+                </p>
+
+                                    
+                <!-- <div class="updates">
+                    <h3>🔔 Updates</h3>
+                    <ul>
+                        <li><strong>2025-03-25</strong>: Online-Mind2Web released!</li>
+                        <li><strong>2024-03-18</strong>: Multimodal-Mind2Web dataset released with paired screenshots</li>
+                        <li><strong>2023-08-06</strong>: Fine-tuning code/models for MindAct updated</li>
+                        <li><strong>2023-07-03</strong>: Raw dump with trace files, network traffic, and screenshots released</li>
+                        <li><strong>2023-06-13</strong>: Training/test data and codebase released</li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Function Section -->
+    <section class="function">
+        <div class="container">
+            <h2>Function Overview</h2>
+            <p class="abstract-content">
+                WebVIA enables interactive UI-to-code generation beyond static rendering by supporting real user actions such as clicking, selecting, and entering text.
+            </p>
+
+            <!-- 功能图 -->
+            <div class="figure function-figure">
+                <img src="assets/webvia_function.png" alt="WebVIA Function Overview">
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Framework Overview Section -->
+    <section class="framework">
+        <div class="container">
+            <h2>Agentic Framework</h2>
+            <p class="abstract-content">
+                WebVIA is the first agentic framework that enables end-to-end interactive UI-to-code generation,
+                from multi-state UI exploration to executable code synthesis and automatic validation.
+            </p>
+
+            <!-- 图更宽 -->
+            <div class="figure">
+                <img src="assets/webvia_overview.png" alt="WebVIA Pipeline">
+            </div>
+
+            <!-- 说明区域也变宽 -->
+            <div class="abstract-content">
+                <p><strong>WebVIA-Agent</strong> explores websites, identifies UI states, and captures key screenshots and DOM states.</p>
+                <p><strong>WebVIA-UI2Code</strong> transforms these UI states into functional HTML/CSS/JavaScript code.</p>
+                <p><strong>Validation Module</strong> executes the generated code and checks whether the UI behavior aligns with expected interactivity.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="intro-section">
+        <div class="container">
+            <h2>Introduction</h2>
+            <!-- <p class="section-intro">
+                WebVIA is the first agentic framework for interactive and verifiable UI-to-Code generation.
+            </p> -->
+            <div class="intro-block">
+                <p>
+                    Unlike previous UI2Code methods that only produce static HTML/CSS layouts, WebVIA enables executable and interactive web interfaces by integrating three components: 
+                    (1) <strong>WebVIA-Agent</strong>, which interacts with the HTML environment to explore webpages and capture multi-state UI screenshots; 
+                    (2) <strong>WebVIA-UI2Code</strong>, which generates functional HTML/CSS/JavaScript code based on these screenshots; 
+                    (3) a <strong>validation module</strong> that verifies whether the generated interface supports real user interactions.
+                </p>
+                <p>
+                    We train two core models to ensure strong performance. WebVIA-Agent is trained on a large-scale GUI interaction dataset and demonstrates higher stability and accuracy than general-purpose agents such as Gemini-2.5-Pro. 
+                    WebVIA-UI2Code, built upon Qwen-2.5-VL-7B and GLM-4.1V-9B, is fine-tuned using paired multi-state screenshots and executable HTML, achieving +5.2 and +4.7 improvements on Design2Code, and competitive results on UIFlow2Code.
+                </p>
+                <!-- <p><strong>Contributions:</strong></p>
+                <ul>
+                    <li><strong>Framework:</strong> We introduce WebVIA, the first agentic framework that enables interactive and verifiable UI-to-Code generation.</li>
+                    <li><strong>Models:</strong> We develop WebVIA-Agent for environment exploration and WebVIA-UI2Code for generating executable, interactive web code.</li>
+                    <li><strong>Experiments:</strong> WebVIA-Agent outperforms Gemini-2.5-Pro in stability and accuracy, and WebVIA-UI2Code produces robust and verifiable interactive GUIs beyond static reconstruction.</li>
+                </ul> -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Task Examples -->
+    <section class="task-examples">
+        <div class="container">
+            <h2>Demo Cases</h2>
+
+            <!-- 1. Agent Exploration Demo -->
+            <div class="demo-section">
+                <h3>1. Agent Exploration Demo</h3>
+                <p>
+                    WebVIA-Agent explores real web pages by interacting with DOM elements, 
+                    collecting multi-state UI screenshots.
+                </p>
+                <img class="demo-img" src="assets/demo_agent_exploration.png" alt="Agent Exploration Demo">
+            </div>
+
+            <!-- 2. UI2Code Generation Demo -->
+            <div class="demo-section">
+                <h3>2. UI2Code Generation Demo</h3>
+                <p>
+                    Given multi-state UI screenshots, WebVIA-UI2Code generates 
+                    <strong>fully executable HTML/CSS/JavaScript code</strong>, enabling real interactions 
+                    such as clicking, input typing, and page navigation.
+                </p>
+                <img class="demo-img" src="assets/demo_ui2code_generation.png" alt="UI2Code Demo">
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="experiments">
+        <div class="container">
+            <h2>Experimental Results</h2>
+
+            <p class="abstract-content">
+                We evaluate WebVIA on two key tasks: <strong>(1) UI exploration</strong> and 
+                <strong>(2) interactive UI-to-Code generation</strong>. 
+                Results demonstrate that WebVIA consistently outperforms existing VLM-based approaches in terms of 
+                stability, correctness, and interactivity.
+            </p>
+
+            <!-- ================= 1. Agent Performance ================= -->
+            <!-- <h3>1. WebVIA-Agent: UI Exploration Performance</h3> -->
+            <h3 style="margin-top: 40px;">1. WebVIA-Agent: UI Exploration Performance</h3>
+            <p class="abstract-content">
+                We evaluate WebVIA-Agent on <strong>UIExplore-Bench (56 webpages)</strong> and compare with state-of-the-art VLM agents.
+                WebVIA-Agent achieves the highest overall score by improving exploration completeness and correctness.
+            </p>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Completeness (%)</th>
+                            <th>Correctness (%)</th>
+                            <th>Deduplication Rate (%)</th>
+                            <th>Overall Score (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gemini-2.5-Pro</td>
+                            <td><u>92.61</u></td>
+                            <td><u>95.39</u></td>
+                            <td>5.60</td>
+                            <td>71.83</td>
+                        </tr>
+                        <tr>
+                            <td>GPT-5</td>
+                            <td>76.66</td>
+                            <td>90.19</td>
+                            <td><u>93.82</u></td>
+                            <td>85.69</td>
+                        </tr>
+                        <tr>
+                            <td>o4-mini</td>
+                            <td>91.73</td>
+                            <td>94.07</td>
+                            <td>52.73</td>
+                            <td>82.80</td>
+                        </tr>
+                        <tr>
+                            <td>GPT-4o</td>
+                            <td>16.46</td>
+                            <td>62.63</td>
+                            <td>97.45</td>
+                            <td>52.87</td>
+                        </tr>
+                        <tr>
+                            <td>Claude-Sonnet-3.7</td>
+                            <td>75.86</td>
+                            <td>94.06</td>
+                            <td>72.36</td>
+                            <td>81.35</td>
+                        </tr>
+                        <tr>
+                            <td>Claude-Sonnet-4</td>
+                            <td>86.26</td>
+                            <td>95.07</td>
+                            <td>80.36</td>
+                            <td><u>87.87</u></td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>WebVIA-Agent</strong></td>
+                            <td><strong>93.12</strong></td>
+                            <td><strong>97.71</strong></td>
+                            <td><strong>72.73</strong></td>
+                            <td><strong>89.63</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ================= 2. UI2Code Performance ================= -->
+            <!-- <h3>2. WebVIA-UI2Code: Interactive Code Generation</h3> -->
+            <h3 style="margin-top: 40px;">2. WebVIA-UI2Code: Interactive Code Generation</h3>
+                <p class="abstract-content">
+                    We fine-tune Qwen2.5-VL-7B-Instruct and GLM-4.1-V-9B-Base to build WebVIA-UI2Code models. 
+                    Both significantly improve on Design2Code and UIFlow2Code benchmarks while producing executable interactive HTML/CSS/JavaScript.
+                </p>
+
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Design2Code </th>
+                                <th>UIFlow2Code </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Qwen2.5-VL-7B-Instruct</td>
+                                <td>29.1</td>
+                                <td>/</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>WebVIA-UI2Code-Qwen</strong></td>
+                                <td><strong>34.3</strong></td>
+                                <td><strong>75.9</strong></td>
+                            </tr>
+                            <tr>
+                                <td>GLM-4.1-V-9B-Base</td>
+                                <td>58.3</td>
+                                <td>/</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>WebVIA-UI2Code-GLM</strong></td>
+                                <td><strong>63.0</strong></td>
+                                <td><strong>84.9</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </section>
+
+
+
+    <!-- Citation -->
+    <section class="citation">
+        <div class="container citation-center">
+            <h2>Citation</h2>
+            <div class="citation-box">
+    @article{xu2025webvia,
+    title={WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation},
+    author={Xu, Mingde and Yang, Zhen and Hong, Wenyi and Pan, Lihang and Fan, Xinyue and Wang, Yan and Gu, Xiaotao and Xu, Bin and Tang, Jie},
+    year={2025},
+    journal={arXiv preprint arXiv:2501.XXXXX}
+    }
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <h3>Corresponding Authors</h3>
+            <div class="footer-authors">
+                <div class="footer-author">
+                    <h4>
+                        <a href="https://zyang-16.github.io/zhenyang.github.io/" target="_blank" style="color: #94a3b8; text-decoration: none;">
+                            Zhen Yang
+                        </a>
+                    </h4>
+                    <p>Tsinghua University</p>
+                </div>
+                <div class="footer-author">
+                    <h4>
+                        <a href="https://keg.cs.tsinghua.edu.cn/jietang/" target="_blank" style="color: #94a3b8; text-decoration: none;">
+                            Jie Tang
+                        </a>
+                    </h4>
+                    <p>Tsinghua University</p>
+                </div>
+            </div>
+            <div class="footer-note">
+                <p>This website is licensed under a 
+                    <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0</a>.
+                </p>
+                <p style="margin-top: 15px;">© 2025 Tsinghua University | 
+                    <a href="mailto:yang-zhen@mail.tsinghua.edu.cn">Contact Us</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
+    <script>
+        // Sample tasks database
+        const tasks = [
+            {
+                domain: 'Shopping',
+                website: 'Amazon',
+                description: 'Find wireless bluetooth headphones under $100, filter by Prime shipping, sort by customer reviews, and add the top-rated item to cart.',
+                steps: ['Click search bar', 'Type "wireless bluetooth headphones"', 'Click search', 'Apply price filter: under $100', 'Select Prime shipping filter', 'Sort by customer reviews', 'Click on first product', 'Click "Add to Cart"']
+            },
+            {
+                domain: 'Travel',
+                website: 'Expedia',
+                description: 'Book a round-trip flight from New York to Paris, departing June 15 and returning June 22, economy class for 2 adults.',
+                steps: ['Select "Round-trip"', 'Enter departure city: New York', 'Enter destination: Paris', 'Select departure date: June 15', 'Select return date: June 22', 'Set passengers: 2 adults', 'Click search', 'Select preferred flight', 'Proceed to checkout']
+            },
+            {
+                domain: 'Entertainment',
+                website: 'Netflix',
+                description: 'Browse action movies released between 2020-2023 with a rating above 7.5.',
+                steps: ['Navigate to Movies section', 'Select "Action" genre', 'Apply year filter: 2020-2023', 'Sort by rating', 'Filter rating > 7.5']
+            },
+            {
+                domain: 'Finance',
+                website: 'Chase Bank',
+                description: 'Check credit card statement for current month and set up automatic payment for minimum due.',
+                steps: ['Login to account', 'Navigate to Credit Cards', 'View current statement', 'Click "Set up AutoPay"', 'Select "Minimum payment due"', 'Confirm setup']
+            },
+            {
+                domain: 'Social Media',
+                website: 'Twitter',
+                description: 'Search for tweets about artificial intelligence from verified accounts in the last week, and retweet the most popular one.',
+                steps: ['Click search', 'Type "artificial intelligence"', 'Apply filter: Verified accounts', 'Set time range: Last 7 days', 'Sort by engagement', 'Click retweet on top post']
+            },
+            {
+                domain: 'Shopping',
+                website: 'eBay',
+                description: 'Find used laptops with at least 16GB RAM, Intel i7 processor, price range $400-$600, located in USA.',
+                steps: ['Search "laptop"', 'Select "Used" condition', 'Filter RAM: 16GB+', 'Filter processor: Intel i7', 'Set price range: $400-$600', 'Filter location: USA', 'Sort by best match']
+            },
+            {
+                domain: 'Travel',
+                website: 'Booking.com',
+                description: 'Find a hotel in Barcelona for 3 nights starting July 10, with free cancellation and breakfast included, rated 8.5+.',
+                steps: ['Enter destination: Barcelona', 'Set check-in: July 10', 'Set check-out: July 13', 'Apply filter: Free cancellation', 'Apply filter: Breakfast included', 'Filter rating: 8.5+', 'View results']
+            },
+            {
+                domain: 'Entertainment',
+                website: 'IMDb',
+                description: 'Search for the top-rated science fiction movies of 2024 and add the first three to your watchlist.',
+                steps: ['Navigate to Advanced Search', 'Select genre: Sci-Fi', 'Set year: 2024', 'Sort by rating', 'Add first movie to watchlist', 'Add second movie to watchlist', 'Add third movie to watchlist']
+            }
+        ];
+
+        function loadRandomTask() {
+            const task = tasks[Math.floor(Math.random() * tasks.length)];
+            const display = document.getElementById('taskDisplay');
+            
+            display.innerHTML = `
+                <h4>Task Details</h4>
+                <p><strong>Domain:</strong> ${task.domain}</p>
+                <p><strong>Website:</strong> ${task.website}</p>
+                <p><strong>Task Description:</strong> ${task.description}</p>
+                <p><strong>Action Sequence:</strong></p>
+                <ul>
+                    ${task.steps.map((step, i) => `<li>Step ${i + 1}: ${step}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        // Scroll to top functionality
+        window.onscroll = function() {
+            const scrollTop = document.getElementById('scrollTop');
+            if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
