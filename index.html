@@ -19,6 +19,22 @@
             background: #ffffff;
         }
 
+        /* 让 Title 更宽一些（推荐 1400px 或以上）*/
+        .header .container {
+            max-width: 1400px;   /* 原来可能是 960px 或 1200px，改大 */
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            line-height: 1.3;
+            max-width: 1300px;   /* 控制标题文本换行位置 */
+            margin: 0 auto;
+            text-align: center;  /* 居中保持不变 */
+        }
+
+
         .header {
             background: #ffffff;
             color: #1a202c;
@@ -37,17 +53,29 @@
 
         .header .subtitle {
             font-size: 1.4em;
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto 30px;
             font-weight: 300;
             color: #475569;
+        }
+
+        /* 去掉作者名字链接下划线 + 设置颜色 */
+        .authors a {
+            text-decoration: none !important;  /* 取消下划线 */
+            color: #2b6cb0;                    /* 保持蓝色 */
+        }
+
+        /* 悬停时也不要出现下划线 */
+        .authors a:hover {
+            text-decoration: none !important;
+            color: #1a4f8b;                    /* 悬停时颜色稍深，可以保留/调整 */
         }
 
         .authors {
             margin: 25px 0;
             font-size: 1.15em;
             font-weight: 400;
-            color: #1a202c;
+            color: #2b6cb0;
         }
 
         .authors span {
@@ -612,8 +640,8 @@
         }
 
         .footer {
-            background: #0f172a;
-            color: white;
+            background: #f2f3f5;
+            color: #333;    
             padding: 50px 20px;
             text-align: center;
             border-bottom: none;
@@ -784,15 +812,15 @@
         <div class="container">
             <h1>WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation</h1>
             <div class="authors">
-                <span><strong>Mingde Xu<sup>1,3*</sup></strong></span>
-                <span><strong>Zhen Yang<sup>2,3*†</sup></strong></span>
-                <span><strong>Wenyi Hong<sup>2,3</sup></strong></span>
-                <span><strong>Lihang Pan<sup>3</sup></strong></span>
-                <span><strong>Xinyue Fan<sup>3</sup></strong></span>
-                <span><strong>Yan Wang<sup>3</sup></strong></span>
-                <span><strong>Xiaotao Gu<sup>3</sup></strong></span>
-                <span><strong>Bin Xu<sup>2</sup></strong></span>
-                <span><strong>Jie Tang<sup>2†</sup></strong></span>
+                <span><strong><a href="#" target="_blank" >Mingde Xu<sup>1,3*</sup></a></strong></span>
+                <span><strong><a href="https://zyang-16.github.io/zhenyang.github.io/" target="_blank" >Zhen Yang<sup>2,3*†</sup></a></strong></span>
+                <span><strong><a href="https://wenyihong.github.io/" target="_blank" >Wenyi Hong<sup>1,3*</sup></a></strong></span>
+                <span><strong><a href="#" target="_blank" >Lihang Pan<sup>3</sup></a></strong></span>
+                <span><strong><a href="#" target="_blank" >Xinyue Fan<sup>3</sup></a></strong></span>
+                <span><strong><a href="https://scholar.google.com/citations?user=q7_eLaUAAAAJ&hl=zh-CN" target="_blank" >Yan Wang<sup>3</sup></a></strong></span>
+                <span><strong><a href="https://scholar.google.com/citations?user=YR4Lp0QAAAAJ&hl=en" target="_blank" >Xiaotao Gu<sup>3</sup></a></strong></span>
+                <span><strong><a href="https://scholar.google.com/citations?user=eV_MEVYAAAAJ&hl=en" target="_blank" >Bin Xu<sup>2</sup></a></strong></span>
+                <span><strong><a href="https://keg.cs.tsinghua.edu.cn/jietang/" target="_blank" >Jie Tang<sup>2†</sup></a></strong></span>
             </div>
             <div class="affiliation">
                 <span><sup>1</sup> Faculty of Mathematics, University of Waterloo</span><br>
@@ -914,7 +942,7 @@
                 <p>
                     Given multi-state UI screenshots, WebVIA-UI2Code generates <strong>fully executable HTML/CSS/JavaScript code</strong>, enabling real interactions such as clicking, input typing, and page navigation.
                 </p>
-                <img class="demo-img" src="assets/demo_ui2code_generation.png" alt="UI2Code Demo">
+                <img class="demo-img" src="assets/demo_ui2code_generation_cropped_page-0001.jpg" alt="UI2Code Demo">
             </div>
         </div>
     </section>
@@ -1059,7 +1087,7 @@
     author={Xu, Mingde and Yang, Zhen and Hong, Wenyi and Pan, Lihang and Fan, Xinyue and Wang, Yan and Gu, Xiaotao and Xu, Bin and Tang, Jie},
     year={2025},
     journal={arXiv preprint arXiv:2501.XXXXX}
-    }
+}
 </code></pre>
         </div>
     </div>
