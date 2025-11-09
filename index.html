@@ -37,7 +37,7 @@
 
         .header .subtitle {
             font-size: 1.4em;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto 30px;
             font-weight: 300;
             color: #475569;
@@ -98,9 +98,8 @@
             transform: translateY(-2px);
         }
 
-
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -125,7 +124,7 @@
             text-align: center;
             font-size: 1.15em;
             color: #64748b;
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto 50px;
         }
 
@@ -179,7 +178,7 @@
         }
 
         .abstract-content {
-            max-width: 950px;
+            max-width: 1500px;
             margin: 0 auto;
             font-size: 1.12em;
             line-height: 1.9;
@@ -360,7 +359,17 @@
         }
 
         .intro-block {
-            max-width: 900px;
+            max-width: 1000px;
+            margin: 10px auto 20px;  /* ✅ 比原来更贴合后面的内容 */
+            font-size: 1.05em;
+            color: #444;
+            line-height: 1.75;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .intro-block-2 {
+            max-width: 1100px;
             margin: 10px auto 20px;  /* ✅ 比原来更贴合后面的内容 */
             font-size: 1.05em;
             color: #444;
@@ -448,7 +457,7 @@
 
         /* ✅ 放大 Agentic Framework 里的图片 */
         .framework .figure img {
-            max-width: 85%;   /* 你可以改成 85%、100% 都可以 */
+            max-width: 100%;   /* 你可以改成 85%、100% 都可以 */
             margin: 0 auto;
             display: block;
         }
@@ -466,23 +475,11 @@
         }
 
         .function-figure img {
-            width: 85%;          /* 让图更宽一些 */
-            max-width: 1200px;   /* 防止超出页面 */
+            width: 70%;          /* 原来是 80% 或 100% */
+            max-width: 1200px;
             display: block;
             margin: 0 auto;
-            border-radius: 10px; /* 如果想要圆角可以保留 */
-        }
-
-        /* ✅ 设置 Demo 内容整体居中但内部左对齐 */
-        .task-examples .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* ✅ 每个 demo 块整体左对齐 */
-        .demo-section {
-            text-align: left;
-            margin-top: 40px;
+            border-radius: 10px;
         }
 
         /* ✅ 标题风格统一 */
@@ -507,6 +504,20 @@
             width: 90%;          /* 可调，比如 80% / 900px */
             border-radius: 8px;
             margin-top: 10px;
+        }
+
+        /* ✅ 让 Demo Cases 整体变宽 */
+        .task-examples .container {
+            max-width: 1100px;   /* 可以改成 1500px / 1600px */
+            margin: 0 auto;
+        }
+
+        /* ✅ 图片也可以适当加宽（可选） */
+        .demo-img {
+            width: 95%;          /* 原来是 80~90%，现在更宽 */
+            max-width: 1300px;
+            display: block;
+            margin: 20px auto;
         }
 
 
@@ -556,28 +567,48 @@
             font-size: 0.9em;
         }
 
+        /* 整体 Section 间距变小 */
         .citation {
-            background: #1a202c;
-            color: white;
-            padding: 80px 20px;
-            border-bottom: none;
+            margin-top: 20px;      /* 缩小整体上边距 */
+            margin-bottom: 20px;
         }
 
+        /* 标题下间距缩小 */
         .citation h2 {
-            color: white;
+            margin-bottom: 0px;
         }
 
+        /* 代码容器样式 */
         .citation-box {
-            max-width: 900px;
-            margin: 30px auto;
-            background: #0f172a;
-            padding: 30px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 0px;
+            padding: 15px 20px;          /* 上下左右都缩小 */
+            width: 95%;                  /* 变宽一点 */
+            margin: 0 auto;              /* 居中 */
+            font-family: "Courier New", monospace;
+            font-size: 15px;
+            
+            /* 横向滚动支持 */
             overflow-x: auto;
-            border: 1px solid #334155;
-            line-height: 1.6;
+            white-space: pre;
+        }
+
+        /* 去掉多余上下空白：pre 默认 margin 需要清除 */
+        .citation-box pre {
+            margin: 0;
+        }
+
+        /* 优化滚动条（可选） */
+        .citation-box::-webkit-scrollbar {
+            height: 6px;
+        }
+        .citation-box::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 4px;
+        }
+        .citation-box::-webkit-scrollbar-track {
+            background: #eee;
         }
 
         .footer {
@@ -637,7 +668,7 @@
 
         /* Narrow experiment section for better readability */
         #experiments .container {
-            max-width: 950px;   /* 也可以改成 900 或 1000 */
+            max-width: 1100px;   /* 也可以改成 900 或 1000 */
             margin: 0 auto;
         }
         #experiments table {
@@ -695,7 +726,7 @@
         }
 
         .intro-content {
-            max-width: 950px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
@@ -738,6 +769,12 @@
             font-size: 0.95em;
             line-height: 1.6;
         }
+
+        .highlight-red {
+            color: #d32f2f;       /* 或 #e63946, 都是适合科研网站的红色 */
+            font-weight: 700;
+        }
+
         
     </style>
 </head>
@@ -777,7 +814,7 @@
     </div>
 
     <div class="intro-block">
-        <p><strong>WebVIA</strong> is the first agentic framework for interactive and verifiable UI-to-Code generation. 
+        <p><strong>WebVIA</strong> is <strong class="highlight-red">the first agentic framework</strong> for interactive and verifiable UI-to-Code generation. 
         While prior vision-language models only produce static HTML/CSS layouts, WebVIA enables executable and interactive web interfaces.</p>
 
         <p>The framework consists of three modules:</p>
@@ -810,37 +847,9 @@
                     Experiments demonstrate that <strong>WebVIA-Agent</strong> achieves more stable and accurate UI exploration than general-purpose agents (e.g., Gemini-2.5-Pro). 
                     In addition, our fine-tuned <strong>WebVIA-UI2Code</strong> models exhibit substantial improvements in generating executable and interactive HTML/CSS/JavaScript code, outperforming their base counterparts across both interactive and static UI2Code benchmarks.
                 </p>
-
-                                    
-                <!-- <div class="updates">
-                    <h3>🔔 Updates</h3>
-                    <ul>
-                        <li><strong>2025-03-25</strong>: Online-Mind2Web released!</li>
-                        <li><strong>2024-03-18</strong>: Multimodal-Mind2Web dataset released with paired screenshots</li>
-                        <li><strong>2023-08-06</strong>: Fine-tuning code/models for MindAct updated</li>
-                        <li><strong>2023-07-03</strong>: Raw dump with trace files, network traffic, and screenshots released</li>
-                        <li><strong>2023-06-13</strong>: Training/test data and codebase released</li>
-                    </ul>
-                </div> -->
             </div>
         </div>
     </section>
-
-    <!-- Function Section -->
-    <section class="function">
-        <div class="container">
-            <h2>Function Overview</h2>
-            <p class="abstract-content">
-                WebVIA enables interactive UI-to-code generation beyond static rendering by supporting real user actions such as clicking, selecting, and entering text.
-            </p>
-
-            <!-- 功能图 -->
-            <div class="figure function-figure">
-                <img src="assets/webvia_function.png" alt="WebVIA Function Overview">
-            </div>
-        </div>
-    </section>
-
 
     <!-- Framework Overview Section -->
     <section class="framework">
@@ -868,10 +877,7 @@
     <section class="intro-section">
         <div class="container">
             <h2>Introduction</h2>
-            <!-- <p class="section-intro">
-                WebVIA is the first agentic framework for interactive and verifiable UI-to-Code generation.
-            </p> -->
-            <div class="intro-block">
+            <div class="intro-block-2">
                 <p>
                     Unlike previous UI2Code methods that only produce static HTML/CSS layouts, WebVIA enables executable and interactive web interfaces by integrating three components: 
                     (1) <strong>WebVIA-Agent</strong>, which interacts with the HTML environment to explore webpages and capture multi-state UI screenshots; 
@@ -882,12 +888,6 @@
                     We train two core models to ensure strong performance. WebVIA-Agent is trained on a large-scale GUI interaction dataset and demonstrates higher stability and accuracy than general-purpose agents such as Gemini-2.5-Pro. 
                     WebVIA-UI2Code, built upon Qwen-2.5-VL-7B and GLM-4.1V-9B, is fine-tuned using paired multi-state screenshots and executable HTML, achieving +5.2 and +4.7 improvements on Design2Code, and competitive results on UIFlow2Code.
                 </p>
-                <!-- <p><strong>Contributions:</strong></p>
-                <ul>
-                    <li><strong>Framework:</strong> We introduce WebVIA, the first agentic framework that enables interactive and verifiable UI-to-Code generation.</li>
-                    <li><strong>Models:</strong> We develop WebVIA-Agent for environment exploration and WebVIA-UI2Code for generating executable, interactive web code.</li>
-                    <li><strong>Experiments:</strong> WebVIA-Agent outperforms Gemini-2.5-Pro in stability and accuracy, and WebVIA-UI2Code produces robust and verifiable interactive GUIs beyond static reconstruction.</li>
-                </ul> -->
             </div>
         </div>
     </section>
@@ -912,16 +912,12 @@
             <div class="demo-section">
                 <h3>2. UI2Code Generation Demo</h3>
                 <p>
-                    Given multi-state UI screenshots, WebVIA-UI2Code generates 
-                    <strong>fully executable HTML/CSS/JavaScript code</strong>, enabling real interactions 
-                    such as clicking, input typing, and page navigation.
+                    Given multi-state UI screenshots, WebVIA-UI2Code generates <strong>fully executable HTML/CSS/JavaScript code</strong>, enabling real interactions such as clicking, input typing, and page navigation.
                 </p>
                 <img class="demo-img" src="assets/demo_ui2code_generation.png" alt="UI2Code Demo">
             </div>
         </div>
     </section>
-
-
 
     <section id="experiments">
         <div class="container">
@@ -1054,19 +1050,21 @@
 
 
     <!-- Citation -->
-    <section class="citation">
-        <div class="container citation-center">
-            <h2>Citation</h2>
-            <div class="citation-box">
-    @article{xu2025webvia,
+<section class="citation">
+    <div class="container citation-center">
+        <h2>Citation</h2>
+        <div class="citation-box">
+<pre><code>@article{xu2025webvia,
     title={WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation},
     author={Xu, Mingde and Yang, Zhen and Hong, Wenyi and Pan, Lihang and Fan, Xinyue and Wang, Yan and Gu, Xiaotao and Xu, Bin and Tang, Jie},
     year={2025},
     journal={arXiv preprint arXiv:2501.XXXXX}
     }
-            </div>
+</code></pre>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Footer -->
     <div class="footer">
